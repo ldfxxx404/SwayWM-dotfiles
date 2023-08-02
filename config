@@ -1,0 +1,285 @@
+ ### Стандартная конфигурация для sway ###
+	
+	### Копируйте это в  /home/user/.config/sway/config и редактируйте что захотите. ###
+	### Прочитайте `man 5 sway` для получения дополнительной информации. ###
+	
+	### Переменные ###
+	
+	### Logo key. Используйте Mod1 для Alt. ###
+
+        set $mod Mod4
+	 
+        # Управление окном, на котором находится фокус, как vim
+	set $left h
+	set $down j
+	set $up k
+	set $right l
+	
+	### Приоритетный эмулятор терминала ###
+	
+	set $term alacritty
+	
+	### Приоритетный лаунчер приложений ###
+	
+	### Примечание: передайте финальную команду в swaymsg, чтобы открыть нужное окно ###
+	### Команда будет выполнена на текущем воркспейсе ###
+	
+	set $menu dmenu_path | wofi --show drun -I | xargs swaymsg exec --
+	
+	###Экран###
+	
+	###Стандартные обои (more resolutions are available in @datadir@/backgrounds/sway/)###
+	
+	output * bg /home/user/Pictures/9.png fill
+	
+	###Пример конфигурации:###
+	
+	###  output HDMI-A-1 resolution 1920x1080 position 1920,0 ###
+	  output * resolution --custom 2880x1800@90Hz
+	  output * scale 2
+	  
+	###Вы можете получить названия ваших выходов командой: swaymsg -t get_outputs###
+	
+	###idle configuration###
+
+	###Пример крнфигурации:###
+	
+	###exec swayidle -w \###
+	###timeout 300 'swaylock -f -c 9DB1CC' \###
+	###timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \###
+	###before-sleep -w 'swaylock -f -c 000000'###	
+	
+	# This will lock your screen after 300 seconds of inactivity, then turn off
+	# your displays after another 300 seconds, and turn your screens back on when
+	# resumed. It will also lock your screen before your computer goes to sleep.
+	
+	###Раскладка. Мой конфиг###
+        
+        input * {
+    xkb_layout us,ru
+    xkb_options grp:alt_shift_toggle
+    tap enabled
+}
+
+	### Пример конфигурации: ###
+	
+	### input "2:14:SynPS/2_Synaptics_TouchPad" { ###
+	### dwt enabled				      ###
+	### tap enabled				      ###
+	### natural_scroll enabled                    ###
+	### middle_emulation enabled                  ###
+	### }                                         ###
+	
+	# Вы можете получить имена ваших выводов запустив команду: swaymsg -t get_inputs
+	# Прочитайте `man 5 sway-input` для получения дополнительной информации об этом разделе.
+	
+        ### Мои бинды ###
+	#bindsym --to-code $mod+c exec 
+	bindsym --to-code $mod+Shift+f exec firefox
+	bindsym --to-code $mod+t exec telegram-desktop
+	bindsym --to-code $mod+Shift+t exec polo-gtk        
+	bindsym --to-code $mod+g exec geany	
+        bindsym --to-code $mod+Shift+d exec dino
+	bindsym --to-code $mod+Shift+s exec grim
+	bindsym --to-code $mod+Alt+s exec grim -g "$(slurp)" 
+	bindsym --to-code $mod+Alt+l exec swaylock -f -i /home/lxmxr/Pictures/9.png
+	bindsym --to-code $mod+m exec mumble
+	bindsym --to-code $mod+Alt+p exec poweroff
+
+	
+	### Мультимедийные клавиши ###
+	
+	### Прибавить яркость ###
+        bindsym XF86MonBrightnessUp exec brightnessctl set 5%+	
+        
+	### Уменьшить яркость ###
+        bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+	
+	### Отключить звук ###
+        bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+	### Убавить звук ###
+        bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+        
+
+	### Увеличить звук ###
+        bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+        
+	### Отключить микрофон ###
+        bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle 
+        
+	### Мои настройки ###
+        
+	### Автозапуск ###
+	exec mako	
+	exec systemctl start bluetooth.service
+	#Гапсы
+	gaps inner 5
+	gaps outer 5
+	smart_gaps on	
+
+	### Отключить заголовки окон ###
+	default_border pixel
+	
+
+	### Базовые бинды: ###
+	
+        ### Запустить терминал ###
+	bindsym $mod+Return exec $term
+	
+	### Убить окно, на котором фокус ###
+	bindsym --to-code $mod+Shift+q kill
+	
+	### Запустить лаунчер приложений ###
+	bindsym --to-code $mod+d exec $menu
+	
+	# Drag floating windows by holding down $mod and left mouse button.
+	# Resize them with right mouse button + $mod.
+	# Despite the name, also works for non-floating windows.
+	# Change normal to inverse to use left mouse button for resizing and right
+	# mouse button for dragging.
+	floating_modifier $mod normal
+	
+	### Перезагрузить конфиг ###
+	bindsym --to-code $mod+Shift+c reload
+	
+	### Выйти из Sway (logs you out of your Wayland session) ###
+	bindsym --to-code $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+	
+	### Навигация: ###
+	
+	### Переместить фокус ###
+	bindsym $mod+$left focus left
+	bindsym $mod+$down focus down
+	bindsym $mod+$up focus up
+	bindsym $mod+$right focus right
+	
+	### Или использовать $mod+[up|down|left|right]
+	bindsym $mod+Left focus left
+	bindsym $mod+Down focus down
+	bindsym $mod+Up focus up
+	bindsym $mod+Right focus right
+	
+	### Перемещение окна, на котором фокус с теми же клавишами, но, добавить shift ###
+	bindsym $mod+Shift+$left move left
+	bindsym $mod+Shift+$down move down
+	bindsym $mod+Shift+$up move up
+	bindsym $mod+Shift+$right move right
+	
+	### Тоже самое, с использованием стрелок ###
+	bindsym $mod+Shift+Left move left
+	bindsym $mod+Shift+Down move down
+	bindsym $mod+Shift+Up move up
+	bindsym $mod+Shift+Right move right
+	
+	### Воркспесы: ###
+	
+	### Переключаться между воркспейсами ###
+	bindsym $mod+1 workspace number 1
+	bindsym $mod+2 workspace number 2
+	bindsym $mod+3 workspace number 3
+	bindsym $mod+4 workspace number 4
+	bindsym $mod+5 workspace number 5
+	bindsym $mod+6 workspace number 6
+	bindsym $mod+7 workspace number 7
+	bindsym $mod+8 workspace number 8
+	bindsym $mod+9 workspace number 9
+	bindsym $mod+0 workspace number 10
+	
+	### Переместить окно на котором фокус на воркспейс ### 
+	bindsym $mod+Shift+1 move container to workspace number 1
+	bindsym $mod+Shift+2 move container to workspace number 2
+	bindsym $mod+Shift+3 move container to workspace number 3
+	bindsym $mod+Shift+4 move container to workspace number 4
+	bindsym $mod+Shift+5 move container to workspace number 5
+	bindsym $mod+Shift+6 move container to workspace number 6
+	bindsym $mod+Shift+7 move container to workspace number 7
+	bindsym $mod+Shift+8 move container to workspace number 8
+	bindsym $mod+Shift+9 move container to workspace number 9
+	bindsym $mod+Shift+0 move container to workspace number 10
+	
+	### Премичание: Воркспейсы могут иметь имена,не только цифры. ###
+	# Мы используем числа от 1-10 как стандартные имена для воркспейсов.
+	#
+	# Layout stuff:
+	#
+	# You can "split" the current object of your focus with
+	# $mod+b or $mod+v, for horizontal and vertical splits
+	# respectively.
+	bindsym $mod+b splith
+	bindsym $mod+v splitv
+	
+	### Переключить текушее окно между различными стилями ###
+	
+	bindsym  --to-code $mod+s layout stacking # 
+	bindsym --to-code $mod+w layout tabbed # Вкладка
+	bindsym --to-code $mod+e layout toggle split
+	
+	# Make the current focus fullscreen
+	bindsym $mod+f fullscreen
+	
+	# Toggle the current focus between tiling and floating mode
+	bindsym $mod+Shift+space floating toggle
+	
+	# Swap focus between the tiling area and the floating area
+	bindsym $mod+space focus mode_toggle
+	
+	# Move focus to the parent container
+	bindsym $mod+a focus parent
+	#
+	# Scratchpad:
+	#
+	# Sway has a "scratchpad", which is a bag of holding for windows.
+	# You can send windows there and get them back later.
+	
+	# Move the currently focused window to the scratchpad
+	bindsym $mod+Shift+minus move scratchpad
+	
+	# Show the next scratchpad window or hide the focused scratchpad window.
+	# If there are multiple scratchpad windows, this command cycles through them.
+	bindsym $mod+minus scratchpad show
+	#
+	# Resizing containers:
+	#
+	mode "resize" {
+	# left will shrink the containers width
+	# right will grow the containers width
+	# up will shrink the containers height
+	# down will grow the containers height
+	bindsym $left resize shrink width 10px
+	bindsym $down resize grow height 10px
+	bindsym $up resize shrink height 10px
+	bindsym $right resize grow width 10px
+	
+	# Ditto, with arrow keys
+	bindsym Left resize shrink width 10px
+	bindsym Down resize grow height 10px
+	bindsym Up resize shrink height 10px
+	bindsym Right resize grow width 10px
+	
+	# Return to default mode
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+	}
+	bindsym $mod+r mode "resize"
+	
+	#
+	# Status Bar:
+	#
+	# Read `man 5 sway-bar` for more information about this section.
+	bar {
+	position top
+        swaybar_command waybar
+        
+	# When the status_command prints a new line to stdout, swaybar updates.
+	# The default just shows the current date and time.
+	status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+	
+	colors {
+	statusline #ffffff
+	background #323232
+	inactive_workspace #32323200 #32323200 #5c5c5c
+	}
+	}
+	
+include /etc/sway/config.d/*
