@@ -24,13 +24,13 @@
 	### Примечание: передайте финальную команду в swaymsg, чтобы открыть нужное окно ###
 	### Команда будет выполнена на текущем воркспейсе ###
 	
-	set $menu dmenu_path | wofi --show drun -I | xargs swaymsg exec --
-	
+	set $menu wofi --show drun -b -I 
 	###Экран###
 	
 	###Стандартные обои (more resolutions are available in @datadir@/backgrounds/sway/)###
 	
-	output * bg /home/user/Pictures/9.png fill
+	output * bg /home/lxmxr/Pictures/1.jpg fill
+
 	
 	###Пример конфигурации:###
 	
@@ -47,8 +47,8 @@
 	###exec swayidle -w \###
 	###timeout 300 'swaylock -f -c 9DB1CC' \###
 	###timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \###
-	###before-sleep -w 'swaylock -f -c 000000'###	
-	
+	###before-sleep -w 'swaylock -f -c 000000'### 
+
 	# This will lock your screen after 300 seconds of inactivity, then turn off
 	# your displays after another 300 seconds, and turn your screens back on when
 	# resumed. It will also lock your screen before your computer goes to sleep.
@@ -78,11 +78,11 @@
 	bindsym --to-code $mod+Shift+f exec firefox
 	bindsym --to-code $mod+t exec telegram-desktop
 	bindsym --to-code $mod+Shift+t exec polo-gtk        
-	bindsym --to-code $mod+g exec geany	
-        bindsym --to-code $mod+Shift+d exec dino
+	#bindsym --to-code $mod+g exec geany	
+    bindsym --to-code $mod+Shift+d exec dino
 	bindsym --to-code $mod+Shift+s exec grim
-	bindsym --to-code $mod+Alt+s exec grim -g "$(slurp)" 
-	bindsym --to-code $mod+Alt+l exec swaylock -f -i /home/lxmxr/Pictures/9.png
+	bindsym --to-code $mod+Alt+s exec grim -g "$(slurp)" - | swappy -f -  
+	bindsym --to-code $mod+Alt+l exec swaylock -f -F -u -e -i /home/lxmxr/Pictures/10.jpg && systemctl suspend
 	bindsym --to-code $mod+m exec mumble
 	bindsym --to-code $mod+Alt+p exec poweroff
 
@@ -112,8 +112,8 @@
         
 	### Автозапуск ###
 	exec mako	
-	exec systemctl start bluetooth.service
-	#Гапсы
+	#exec systemctl start bluetooth.service
+	#Отступы
 	gaps inner 5
 	gaps outer 5
 	smart_gaps on	
@@ -208,6 +208,10 @@
 	# respectively.
 	bindsym $mod+b splith
 	bindsym $mod+v splitv
+
+	### xwayland ###
+    exec --no-startup-id systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+	exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 	
 	### Переключить текушее окно между различными стилями ###
 	
